@@ -1,0 +1,44 @@
+# =================================================================
+# SK COLLEGE MANAGEMENT SYSTEM - BACKEND .GITIGNORE
+# =================================================================
+
+# Dependencies
+node_modules/
+
+# Environment Variables & Secrets
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Always include and track safe .env.example templates
+!.env.example
+!**/.env.example
+!.env*.example
+!**/.env*.example
+
+# User Uploads - Exclude dynamic uploads while preserving the 8 essential seed images
+uploads/*
+!uploads/.gitkeep
+!uploads/1785489209125-about-us.jpg
+!uploads/1785489858420-sports.jpg
+!uploads/1785490146141-memories-1.jpg
+!uploads/1785490176444-memories-2.jpg
+!uploads/1785490186492-memories-3.jpg
+!uploads/1785490208938-memories-4.jpg
+!uploads/1785481116741-BLOG1.jpg
+!uploads/1785481156216-Blog-img-2.jpg
+
+# Temporary test scripts (retained locally, excluded from Git)
+test_*.js
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# System Files
+.DS_Store
+Thumbs.db

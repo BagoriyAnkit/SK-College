@@ -1,0 +1,13 @@
+const express = require("express");
+
+const examrouter = express.Router();
+
+const examcontroller = require("../../controller/Fronted/examController");
+
+
+examrouter.get("/viewall", examcontroller.viewAllExam);
+
+examrouter.get("/find/:id", examcontroller.findExam);
+
+
+module.exports = examrouter;
