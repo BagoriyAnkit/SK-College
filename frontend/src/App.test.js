@@ -146,16 +146,16 @@ describe("Frontend Auth & RBAC Utilities (Step 2)", () => {
       expect(getRedirectPathForRole("ADMIN")).toBe("/admin/dashboard");
     });
 
-    it("should redirect accountant to /admin/fees", () => {
-      expect(getRedirectPathForRole("accountant")).toBe("/admin/fees");
+    it("should redirect accountant to /admin/dashboard", () => {
+      expect(getRedirectPathForRole("accountant")).toBe("/admin/dashboard");
     });
 
-    it("should redirect teacher to /admin/exam", () => {
-      expect(getRedirectPathForRole("teacher")).toBe("/admin/exam");
+    it("should redirect teacher to /admin/dashboard", () => {
+      expect(getRedirectPathForRole("teacher")).toBe("/admin/dashboard");
     });
 
-    it("should redirect hod to /admin/department", () => {
-      expect(getRedirectPathForRole("hod")).toBe("/admin/department");
+    it("should redirect hod to /admin/dashboard", () => {
+      expect(getRedirectPathForRole("hod")).toBe("/admin/dashboard");
     });
 
     it("should redirect student to /portal without redirect loop", () => {

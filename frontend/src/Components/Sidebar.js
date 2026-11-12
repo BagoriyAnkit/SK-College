@@ -442,6 +442,16 @@ export default function Sidebar({ mobileOpen = false, setMobileOpen = () => {} }
                     <HelpCircle size={18} className="shrink-0" />
                     <span className="text-[10px] mt-1 leading-tight text-center">FAQs</span>
                   </Link>
+
+                  <Link
+                    to="/admin/staticpage"
+                    onClick={handleLinkClick}
+                    className={navLinkClass("/admin/staticpage")}
+                    title="Static CMS Pages"
+                  >
+                    <FileText size={18} className="shrink-0" />
+                    <span className="text-[10px] mt-1 leading-tight text-center">Pages</span>
+                  </Link>
                 </div>
               )}
             </div>

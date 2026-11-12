@@ -260,6 +260,14 @@ const deleteBatch = async (req, res) => {
       });
     }
 
+    // Referential integrity cleanup: nullify batch references in exams and marks
+    const examModel = require("../../model/admin/exam");
+    const marksModel = require("../../model/admin/marks");
+    await Promise.all([
+      examModel.updateMany({ batch: id }, { $set: { batch: null } }).catch(() => {}),
+      marksModel.updateMany({ batch: id }, { $set: { batch: null } }).catch(() => {})
+    ]);
+
     res.status(200).json({
       status: true,
       statusCode: 200,

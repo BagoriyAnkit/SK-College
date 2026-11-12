@@ -163,7 +163,22 @@ const deleteDepartment = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const departmentData = await department.deleteOne({ _id: id });
+        const departmentData = await department.findByIdAndDelete(id);
+
+        if (!departmentData) {
+            return res.status(404).json({
+                status: false,
+                statusCode: 404,
+                message: "Department not found"
+            });
+        }
+
+        // Referential integrity cleanup: nullify department references in Faculty and Student
+        const StudentModel = require("../../model/admin/student");
+        await Promise.all([
+            Faculty.updateMany({ department: id }, { $set: { department: null, Department: "" } }).catch(() => {}),
+            StudentModel.updateMany({ department: id }, { $set: { department: null } }).catch(() => {})
+        ]);
 
         res.status(200).json({
             status: true,

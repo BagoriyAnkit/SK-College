@@ -1,17 +1,35 @@
 const notice = require("../../model/admin/notice");
 
+const normalizeNoticePayload = (body) => {
+  const data = { ...body };
+  if (data.for_whom) {
+    const raw = String(data.for_whom).toLowerCase().trim();
+    if (raw === "teachers" || raw === "faculty") {
+      data.for_whom = "faculty";
+    } else if (raw === "students") {
+      data.for_whom = "students";
+    } else {
+      data.for_whom = "all";
+    }
+  }
+  return data;
+};
+
 const addNotice = async (req, res) => {
   try {
-    const noticeData = await notice.create(req.body);
-    res.json({
+    const payload = normalizeNoticePayload(req.body);
+    const noticeData = await notice.create(payload);
+    res.status(201).json({
       status: true,
+      statusCode: 201,
       message: "notice added successfully",
       data: noticeData
     });
   } catch (error) {
-    res.json({
+    res.status(500).json({
       status: false,
-      message: error.message || error
+      statusCode: 500,
+      message: error.message || "Failed to add notice"
     });
   }
 };
@@ -19,18 +37,27 @@ const addNotice = async (req, res) => {
 const findNotice = async (req, res) => {
   try {
     const { id } = req.params;
-    const noticeData = await notice.findOne({ _id: id });
-    res.json({
+    const noticeData = await notice.findById(id);
+
+    if (!noticeData) {
+      return res.status(404).json({
+        status: false,
+        statusCode: 404,
+        message: "Notice not found"
+      });
+    }
+
+    res.status(200).json({
       status: true,
       statusCode: 200,
       message: "found notice successfully",
       data: noticeData
     });
   } catch (error) {
-    res.json({
+    res.status(500).json({
       status: false,
       statusCode: 500,
-      message: "error"
+      message: error.message || "Error finding notice"
     });
   }
 };
@@ -38,19 +65,28 @@ const findNotice = async (req, res) => {
 const updateNotice = async (req, res) => {
   try {
     const { id } = req.params;
-    const updateData = req.body;
-    const noticeData = await notice.updateOne({ _id: id }, updateData);
-    res.json({
+    const updateData = normalizeNoticePayload(req.body);
+    const noticeData = await notice.findByIdAndUpdate(id, updateData, { new: true });
+
+    if (!noticeData) {
+      return res.status(404).json({
+        status: false,
+        statusCode: 404,
+        message: "Notice not found"
+      });
+    }
+
+    res.status(200).json({
       status: true,
       statusCode: 200,
       message: "notice updated successfully",
       data: noticeData
     });
   } catch (error) {
-    res.json({
+    res.status(500).json({
       status: false,
       statusCode: 500,
-      message: "error"
+      message: error.message || "Error updating notice"
     });
   }
 };
@@ -58,18 +94,27 @@ const updateNotice = async (req, res) => {
 const deleteNotice = async (req, res) => {
   try {
     const { id } = req.params;
-    const noticeData = await notice.deleteOne({ _id: id });
-    res.json({
+    const noticeData = await notice.findByIdAndDelete(id);
+
+    if (!noticeData) {
+      return res.status(404).json({
+        status: false,
+        statusCode: 404,
+        message: "Notice not found"
+      });
+    }
+
+    res.status(200).json({
       status: true,
-      statuscode: 200,
+      statusCode: 200,
       message: "notice deleted successfully",
       data: noticeData
     });
   } catch (error) {
-    res.json({
+    res.status(500).json({
       status: false,
-      statuscode: 500,
-      message: "error"
+      statusCode: 500,
+      message: error.message || "Error deleting notice"
     });
   }
 };

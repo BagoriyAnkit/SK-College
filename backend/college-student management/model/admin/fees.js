@@ -67,7 +67,7 @@ const feesSchema = new mongoose.Schema(
 
     courseId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Course",
+      ref: "course",
       required: false
     },
 

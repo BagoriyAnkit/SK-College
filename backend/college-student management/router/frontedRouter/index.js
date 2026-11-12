@@ -15,7 +15,7 @@ const registerrouter = require("./registerRouter")
 const eventrouter = require("./eventRouter")
 const faqrouter = require("./faqRouter")
 const noticerouter = require("./noticeRouter")
-const examrouter = require("./examRouter")
+const examrouter = require("./examRouter.js")
 const batchrouter = require("./batchRouter")
 const memoriesrouter = require("./memoriesRouter")
 

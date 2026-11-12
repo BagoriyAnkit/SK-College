@@ -218,6 +218,19 @@ const deleteStudent = async (req, res) => {
         message: "Student not found"
       });
     }
+
+    // Referential integrity cleanup: prevent broken references across collections
+    const marksModel = require("../../model/admin/marks");
+    const feesModel = require("../../model/admin/fees");
+    const admissionModel = require("../../model/admin/admission");
+
+    await Promise.all([
+      marksModel.deleteMany({ student: id }).catch(() => {}),
+      feesModel.updateMany({ studentId: id }, { $set: { studentId: null } }).catch(() => {}),
+      User.updateMany({ studentId: id }, { $set: { studentId: null } }).catch(() => {}),
+      admissionModel.updateMany({ studentId: id }, { $set: { studentId: null } }).catch(() => {})
+    ]);
+
     res.status(200).json({
       status: true,
       statusCode: 200,

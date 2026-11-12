@@ -1,4 +1,4 @@
-const Joi = require("Joi");
+const Joi = require("joi");
 
 const admissionValidation = Joi.object({
   studentName: Joi.string().required(),
