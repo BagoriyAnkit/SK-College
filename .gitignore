@@ -4,6 +4,7 @@
 
 # Dependencies
 node_modules/
+backend/college-student-management/node_modules/
 backend/college-student management/node_modules/
 frontend/node_modules/
 
@@ -14,6 +15,8 @@ frontend/node_modules/
 .env.development.local
 .env.test.local
 .env.production.local
+backend/college-student-management/.env
+backend/college-student-management/.env.*
 backend/college-student management/.env
 backend/college-student management/.env.*
 frontend/.env
@@ -29,6 +32,7 @@ frontend/.env.*
 frontend/build/
 build/
 dist/
+.vercel
 
 # Operating System Files & Artifacts
 .DS_Store
@@ -46,6 +50,7 @@ yarn-error.log*
 # Temporary Test Scripts & Local Testing Files (retained locally, excluded from Git)
 scratch/
 test_*.js
+backend/college-student-management/test_*.js
 backend/college-student management/test_*.js
 frontend/tailwind-test.css
 
@@ -53,16 +58,16 @@ frontend/tailwind-test.css
 frontend/public/uploads/
 
 # User Uploads - Exclude general dynamic uploads while whitelisting the 8 essential seed images
-backend/college-student management/uploads/*
-!backend/college-student management/uploads/.gitkeep
-!backend/college-student management/uploads/1785489209125-about-us.jpg
-!backend/college-student management/uploads/1785489858420-sports.jpg
-!backend/college-student management/uploads/1785490146141-memories-1.jpg
-!backend/college-student management/uploads/1785490176444-memories-2.jpg
-!backend/college-student management/uploads/1785490186492-memories-3.jpg
-!backend/college-student management/uploads/1785490208938-memories-4.jpg
-!backend/college-student management/uploads/1785481116741-BLOG1.jpg
-!backend/college-student management/uploads/1785481156216-Blog-img-2.jpg
+backend/college-student-management/uploads/*
+!backend/college-student-management/uploads/.gitkeep
+!backend/college-student-management/uploads/1785489209125-about-us.jpg
+!backend/college-student-management/uploads/1785489858420-sports.jpg
+!backend/college-student-management/uploads/1785490146141-memories-1.jpg
+!backend/college-student-management/uploads/1785490176444-memories-2.jpg
+!backend/college-student-management/uploads/1785490186492-memories-3.jpg
+!backend/college-student-management/uploads/1785490208938-memories-4.jpg
+!backend/college-student-management/uploads/1785481116741-BLOG1.jpg
+!backend/college-student-management/uploads/1785481156216-Blog-img-2.jpg
 
 # Archive files
 *.zip

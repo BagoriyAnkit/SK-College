@@ -3,6 +3,10 @@ const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, "../.env") });
 
 const dbAsync = () => {
+  if (mongoose.connection.readyState >= 1) {
+    return Promise.resolve(mongoose.connection);
+  }
+
   const mongoUri = process.env.MONGODB_URI;
 
   if (!mongoUri) {

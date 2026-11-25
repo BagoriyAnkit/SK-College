@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Loader from "../../../Components/Loader";
 import { ViewAbout } from "../../../Service/admin/About";
+import { Image_url } from "../../../config/config";
 
 export default function About() {
 
@@ -90,7 +91,7 @@ export default function About() {
 
               {about?.image && (
                 <img
-                  src={`http://localhost:4000/uploads/${about.image}`}
+                  src={`${Image_url}/${about.image}`}
                   alt="About"
                   className="w-52 rounded-lg border"
                 />

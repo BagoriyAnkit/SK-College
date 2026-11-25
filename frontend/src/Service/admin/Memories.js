@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const API_url = "http://localhost:4000";
+import { API_url } from "../../config/config";
 
 
 export const AddMemories = async (data) => {

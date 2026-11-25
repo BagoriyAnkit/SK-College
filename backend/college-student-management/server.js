@@ -12,7 +12,24 @@ const validate = require("./middleware/validate");
 const { loginValidation, registerValidation } = require("./validation/frontedValidation/registerValidation");
 const registercontroller = require("./controller/Fronted/registercontroller");
 
-dbAsync();
+// Initial database connection attempt
+dbAsync().catch((err) => {
+  console.error("Initial MongoDB connection warning:", err.message);
+});
+
+// Middleware to ensure DB connection is ready on every request (especially for serverless functions)
+app.use(async (req, res, next) => {
+  try {
+    await dbAsync();
+    next();
+  } catch (err) {
+    return res.status(500).json({
+      status: false,
+      statusCode: 500,
+      message: "Database connection failed: " + err.message
+    });
+  }
+});
 
 app.use(cors());
 app.use(express.json());
@@ -131,13 +148,17 @@ app.use((err, req, res, next) => {
 
 const { verifySmtpConnection } = require("./utils/sendMail");
 
-app.listen(port, () => {
-  console.log("Server running on port", port);
-  verifySmtpConnection().then((res) => {
-    if (res.success) {
-      console.log("[SMTP STATUS] Mail server connection verified successfully.");
-    } else {
-      console.warn(`[SMTP WARNING] Mail server verification failed (${res.code}): ${res.message}`);
-    }
-  }).catch(() => {});
-});
+if (!process.env.VERCEL) {
+  app.listen(port, () => {
+    console.log("Server running on port", port);
+    verifySmtpConnection().then((res) => {
+      if (res.success) {
+        console.log("[SMTP STATUS] Mail server connection verified successfully.");
+      } else {
+        console.warn(`[SMTP WARNING] Mail server verification failed (${res.code}): ${res.message}`);
+      }
+    }).catch(() => {});
+  });
+}
+
+module.exports = app;

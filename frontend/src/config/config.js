@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const API_url = "http://localhost:4000";
-const Image_url = "http://localhost:4000/uploads";
+const API_url = process.env.REACT_APP_API_URL || "http://localhost:4000";
+const Image_url = process.env.REACT_APP_IMAGE_URL || `${API_url}/uploads`;
 
 // Attach JWT token to outgoing requests, strictly skipping public auth endpoints
 axios.interceptors.request.use(
