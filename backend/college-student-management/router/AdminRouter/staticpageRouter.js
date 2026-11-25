@@ -1,8 +1,8 @@
 const express = require("express");
 const staticPageRouter = express.Router();
 
-const controller = require("../../controller/Admin/staticPageController");
-const staticPageValidation = require("../../validation/adminValidation/staticPageValidation");
+const controller = require("../../controller/Admin/staticpageController");
+const staticPageValidation = require("../../validation/adminValidation/staticpageValidation");
 const validate = require("../../middleware/validate");
 const upload = require("../../middleware/upload");
 staticPageRouter.get("/viewAll", controller.viewAllStaticPage);

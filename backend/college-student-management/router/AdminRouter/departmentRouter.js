@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const departmentController = require("../../controller/admin/departmentController");
+const departmentController = require("../../controller/Admin/departmentController");
 
 const { authorizeRoles } = require("../../middleware/veriifyToken");
 

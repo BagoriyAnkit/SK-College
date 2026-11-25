@@ -1,4 +1,4 @@
-const faq = require("../../model/admin/faq");
+const faq = require("../../model/admin/Faq");
 
 // View All Active FAQ
 const viewAllFaq = async (req, res) => {
