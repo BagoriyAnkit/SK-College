@@ -65,8 +65,45 @@ export default function Event() {
         });
     }, [events, searchQuery, statusFilter]);
 
-    const resolveEventImage = (img) => {
-        if (!img) return `${Image_url}/1785489858420-sports.jpg`;
+    const FALLBACK_EVENT_POOL = [
+        "1785490146141-memories-1.jpg",
+        "1785481116741-BLOG1.jpg",
+        "1785490176444-memories-2.jpg",
+        "1785490186492-memories-3.jpg",
+        "1785490208938-memories-4.jpg",
+        "1785481156216-Blog-img-2.jpg",
+        "1785489209125-about-us.jpg"
+    ];
+
+    const EVENT_IMAGE_RULES = [
+        { keywords: ["sport", "athletic", "tournament", "cricket", "football"], image: "1785489858420-sports.jpg" },
+        { keywords: ["executive", "leadership", "conclave", "ceo", "industry", "summit"], image: "1785490186492-memories-3.jpg" },
+        { keywords: ["hackathon", "robotics", "coding", "techfest", "technology", "innovation"], image: "1785490176444-memories-2.jpg" },
+        { keywords: ["green synthesis", "chemical process", "biotech", "chemistry", "biology"], image: "1785490208938-memories-4.jpg" },
+        { keywords: ["exhibition", "characterization", "quantum devices", "research", "lab"], image: "1785481156216-Blog-img-2.jpg" },
+        { keywords: ["mathematics", "cryptography", "numerical", "workshop", "instrumental", "expo"], image: "1785490146141-memories-1.jpg" },
+        { keywords: ["conference", "convocation", "energy", "power", "symposium"], image: "1785481116741-BLOG1.jpg" },
+        { keywords: ["colloquium", "quantum", "seminar", "lecture", "orientation"], image: "1785489209125-about-us.jpg" }
+    ];
+
+    const getFallbackEventImage = (eventItem, index = 0) => {
+        const title = (eventItem?.event_title || "").toLowerCase();
+        const matched = EVENT_IMAGE_RULES.find((rule) =>
+            rule.keywords.some((kw) => title.includes(kw))
+        );
+        const filename = matched
+            ? matched.image
+            : FALLBACK_EVENT_POOL[index % FALLBACK_EVENT_POOL.length];
+        return `${Image_url}/${filename}`;
+    };
+
+    const resolveEventImage = (eventItem, index = 0) => {
+        const img = typeof eventItem?.image === "string" ? eventItem.image.trim() : "";
+        const isDefaultSportsImage = img.toLowerCase().endsWith("1785489858420-sports.jpg");
+
+        if (!img || isDefaultSportsImage) {
+            return getFallbackEventImage(eventItem, index);
+        }
         if (img.startsWith("http://") || img.startsWith("https://")) return img;
         if (img.startsWith("/")) return `${API_url}${img}`;
         return `${Image_url}/${img}`;
@@ -204,7 +241,7 @@ export default function Event() {
                             </div>
                         ) : filteredEvents.length > 0 ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {filteredEvents.map((item) => (
+                                {filteredEvents.map((item, idx) => (
                                     <div
                                         key={item._id}
                                         className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between overflow-hidden group"
@@ -213,13 +250,13 @@ export default function Event() {
                                             {/* Poster Image */}
                                             <div className="relative h-48 bg-slate-100 overflow-hidden">
                                                 <img
-                                                    src={resolveEventImage(item.image)}
+                                                    src={resolveEventImage(item, idx)}
                                                     alt={item.event_title || "Campus Event"}
                                                     className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                                                     loading="lazy"
                                                     onError={(e) => {
                                                         e.currentTarget.onerror = null;
-                                                        e.currentTarget.src = `${Image_url}/1785489858420-sports.jpg`;
+                                                        e.currentTarget.src = getFallbackEventImage(item, idx);
                                                     }}
                                                 />
 
